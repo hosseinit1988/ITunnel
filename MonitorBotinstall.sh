@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -12,6 +14,7 @@ INSTALL_DIR="/opt/monitorbot"
 CONFIG_FILE="$INSTALL_DIR/config.conf"
 SERVICE_FILE="/etc/systemd/system/monitorbot.service"
 TEMP_ARCHIVE="/tmp/monitorbot.tar.gz"
+DOWNLOAD_URL="https://raw.githubusercontent.com/hosseinit1988/ITunnel/main/monitorbot.tar.gz"
 
 show_menu() {
     clear
@@ -26,45 +29,43 @@ show_menu() {
 }
 
 install_monitorbot() {
-    # Check root
     if [ "$(id -u)" -ne 0 ]; then
         echo -e "${RED}Error: This script requires root privileges${NC}"
         exit 1
     fi
 
+    if ! command -v wget >/dev/null 2>&1; then
+        echo -e "${RED}Error: wget is not installed. Please install it and try again.${NC}"
+        exit 1
+    fi
+
     echo -e "${GREEN}Starting MonitorBot installation...${NC}"
 
-    # Clean existing
     if [ -d "$INSTALL_DIR" ]; then
         echo -e "${YELLOW}Removing previous installation...${NC}"
         rm -rf "$INSTALL_DIR"
     fi
 
-    # Create directory
     echo -e "${YELLOW}Creating installation directory...${NC}"
     mkdir -p "$INSTALL_DIR"
 
-    # Download
     echo -e "${YELLOW}Downloading MonitorBot package...${NC}"
-    if ! wget -O "$TEMP_ARCHIVE" "https://raw.githubusercontent.com/hosseinit1988/ITunnel/refs/heads/main/monitorbot.tar.gz"; then
+    if ! wget -O "$TEMP_ARCHIVE" "$DOWNLOAD_URL"; then
         echo -e "${RED}Error: Download failed${NC}"
         exit 1
     fi
 
-    # Extract
     echo -e "${YELLOW}Extracting files...${NC}"
     if ! tar -xzf "$TEMP_ARCHIVE" -C "$INSTALL_DIR"; then
         echo -e "${RED}Error: Extraction failed${NC}"
         exit 1
     fi
 
-    # Set permissions
     echo -e "${YELLOW}Setting executable permissions...${NC}"
     chmod +x "$INSTALL_DIR"/*.sh
 
-    # Get configuration
     echo -e "${YELLOW}Please enter configuration details:${NC}"
-    
+
     while true; do
         read -p "TELEGRAM_BOT_TOKEN: " TELEGRAM_BOT_TOKEN
         if [ -z "$TELEGRAM_BOT_TOKEN" ]; then
@@ -92,7 +93,6 @@ install_monitorbot() {
         fi
     done
 
-    # Create config file with exact field names
     echo -e "${YELLOW}Creating configuration file...${NC}"
     cat > "$CONFIG_FILE" <<EOL
 TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN
@@ -100,7 +100,6 @@ TELEGRAM_CHAT_ID=$TELEGRAM_CHAT_ID
 CHECK_INTERVAL=$CHECK_INTERVAL
 EOL
 
-    # Create systemd service
     echo -e "${YELLOW}Creating systemd service...${NC}"
     cat > "$SERVICE_FILE" <<EOL
 [Unit]
@@ -119,13 +118,15 @@ RestartSec=5
 WantedBy=multi-user.target
 EOL
 
-    # Enable service
     echo -e "${YELLOW}Enabling service...${NC}"
     systemctl daemon-reload
     systemctl enable monitorbot
-    systemctl start monitorbot
 
-    # Clean up
+    if ! systemctl start monitorbot; then
+        echo -e "${RED}Failed to start MonitorBot service.${NC}"
+        exit 1
+    fi
+
     rm -f "$TEMP_ARCHIVE"
 
     echo -e "${GREEN}Installation completed successfully!${NC}"
@@ -153,16 +154,14 @@ remove_monitorbot() {
         exit 0
     fi
 
-    # Stop service
     echo -e "${YELLOW}Stopping service...${NC}"
-    systemctl stop monitorbot
-    systemctl disable monitorbot
+    systemctl stop monitorbot || true
+    systemctl disable monitorbot || true
 
-    # Remove files
     echo -e "${YELLOW}Removing files...${NC}"
     [ -f "$SERVICE_FILE" ] && rm -f "$SERVICE_FILE"
     [ -d "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
-    
+
     systemctl daemon-reload
 
     echo -e "${GREEN}MonitorBot removed successfully!${NC}"
