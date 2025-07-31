@@ -6,13 +6,13 @@ ARCH=$(uname -m)
 # Map architecture to download URL
 case $ARCH in
     "x86_64")
-        URL="https://raw.githubusercontent.com/aliamg1356/utunnel/refs/heads/main/utunnel_manager_amd64"
+        URL="https://raw.githubusercontent.com/hosseinit1988/ITunnel/refs/heads/main/utunnel_manager_amd64"
         ;;
     "aarch64" | "arm64")
-        URL="https://raw.githubusercontent.com/aliamg1356/utunnel/refs/heads/main/utunnel_manager_arm64"
+        URL="https://raw.githubusercontent.com/hosseinit1988/ITunnel/refs/heads/main/utunnel_manager_arm64"
         ;;
     "i386" | "i686")
-        URL="https://raw.githubusercontent.com/aliamg1356/utunnel/refs/heads/main/utunnel_manager_386"
+        URL="https://raw.githubusercontent.com/hosseinit1988/ITunnel/refs/heads/main/utunnel_manager_386"
         ;;
     *)
         echo "Unsupported architecture: $ARCH"
