@@ -300,8 +300,8 @@ We appreciate your support for continuous project development:
 
 | Network       | Currency       | Wallet Address                              | Icon       |
 |--------------|--------------|------------------------------------------|------------|
-| **Tron**     | TRX (TRC20)  | `TMXRpCsbz8PKzqN4koXiErawdLXzeinWbQ`     | <img src="https://cryptologos.cc/logos/tron-trx-logo.png" width="20"> |
-| **Ethereum** | USDT (ERC20) | `0xD4cEBA0cFf6769Fb9EFE4606bE59C363Ff85BF76` | <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" width="20"> |
+| **Tron**     | TRX (TRC20)  | TNX    | TNX |
+| **Ethereum** | USDT (ERC20) | TNX | TNX |
 
 </div>
 
