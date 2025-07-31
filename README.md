@@ -324,10 +324,10 @@ bash <(curl -s https://raw.githubusercontent.com/aliamg1356/utunnel/refs/heads/m
 
 <div align="center">
 
-| شبکه         | نوع ارز       | آدرس کیف پول                              | آیکون       |
+| شبکه         | نوع ارز       | آدرس کیف پول                              | TNX       |
 |--------------|--------------|------------------------------------------|------------|
-| **Tron**     | TRX (TRC20)  | `TMXRpCsbz8PKzqN4koXiErawdLXzeinWbQ`     | <img src="https://cryptologos.cc/logos/tron-trx-logo.png" width="20"> |
-| **Ethereum** | USDT (ERC20) | `0xD4cEBA0cFf6769Fb9EFE4606bE59C363Ff85BF76` | <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" width="20"> |
+| **Tron**     | TRX (TRC20)  |      | TNX |
+| **Ethereum** | USDT (ERC20) |  | TNX |
 
 </div>
 
