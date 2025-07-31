@@ -276,12 +276,12 @@ Timer: Set auto-restart (1-23 hours)
 Run this command to install:
 
 ```
-bash <(curl -s https://raw.githubusercontent.com/aliamg1356/utunnel/refs/heads/main/install_utunnel.sh --ipv4)
+bash <(curl -s https://raw.githubusercontent.com/hosseinit1988/ITunnel/refs/heads/main/install_utunnel.sh --ipv4)
 ```
 
 🤖 Telegram Monitoring Bot Installation
 ```
-bash <(curl -s https://raw.githubusercontent.com/aliamg1356/utunnel/refs/heads/main/MonitorBotinstall.sh --ipv4)
+bash <(curl -s https://raw.githubusercontent.com/hosseinit1988/ITunnel/refs/heads/main/MonitorBotinstall.sh --ipv4)
 ```
 
 After execution:
